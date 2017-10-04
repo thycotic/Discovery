@@ -34,7 +34,7 @@ Step One:
     * **Script**: Select your Script
     * **Script Arguments**: $target
 
-![Create New Scanner](/imgs/scanner-1.PNG?raw=true)
+![Create New Scanner](imgs/scanner-1.PNG)
 
 Step Two:
 ====================
@@ -46,11 +46,11 @@ Step Two:
 
 * Add the Scanner we just created
 
-![Create New Scanner](/imgs/scanner-3.png?raw=true)
+![Create New Scanner](imgs/scanner-3.png)
 
 * Click **Add Secret** and add your Privileged Account Secret
 
-![Create New Scanner](/imgs/scanner-4.png?raw=true)
+![Create New Scanner](imgs/scanner-4.png)
 
 > Run Discovery again, and the new Scanner will start Discovering SQL Accounts
     
