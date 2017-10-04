@@ -23,7 +23,7 @@ ConnectAs credentials allows Websites, Virtual Directories, and Application in I
  - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Scan Templates** >
  - **Dependencies** > **Create New Scan Template**
 
-    ![Scan Template Designer](imgs/scan-template1.png)
+    ![Scan Template Designer](imgs/scanner-1.PNG)
 
 3. Configure Discovery Scanner:
     - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Discovery Scanners** >
@@ -33,7 +33,7 @@ ConnectAs credentials allows Websites, Virtual Directories, and Application in I
     - **Script**: Select  script from step 1
     - **Arguments**:$target
 
-    ![Create New Scanner](imgs/scan-template2.png)
+    ![Create New Scanner](imgs/scanner-2.PNG)
 
 4. Adding the Scanner
     - **ADMIN** > **Discovery** > **Edit Discovery Sources** and select your source
@@ -41,7 +41,7 @@ ConnectAs credentials allows Websites, Virtual Directories, and Application in I
     - Scroll down to **Find Dependencies** > **Add New Dependency Scanner**
     - Select **ConnectAs** from the scanner list
 
-    ![Add Scanner](imgs/scanner-1.png)
+    ![Add Scanner](imgs/scanner-3.PNG)
 
 5. Run Discovery, PROFIT!
     - The new scanner will find the Dependencies
