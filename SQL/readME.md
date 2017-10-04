@@ -34,7 +34,7 @@ Step One:
     * **Script**: Select your Script
     * **Script Arguments**: $target
 
-![Create New Scanner](imgs/scanner-1.png)
+![Create New Scanner](/imgs/scanner-1.png?raw=true)
 
 Step Two:
 ====================
@@ -42,15 +42,15 @@ Step Two:
 * Navigate to **Discovery > Edit Discovery Sources > Select your Active Directory Source > Click on Scanner Settings Tab**
 * Scroll to **Find Accounts** section and click **Add New Local Account Scanner**
 
-![Create New Scanner](imgs/scanner-2.png)
+![Create New Scanner](/imgs/scanner-2.png?raw=true)
 
 * Add the Scanner we just created
 
-![Create New Scanner](imgs/scanner-3.png)
+![Create New Scanner](/imgs/scanner-3.png?raw=true)
 
 * Click **Add Secret** and add your Privileged Account Secret
 
-![Create New Scanner](imgs/scanner-5.png)
+![Create New Scanner](/imgs/scanner-4.png?raw=true)
 
 > Run Discovery again, and the new Scanner will start Discovering SQL Accounts
     
