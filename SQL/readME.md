@@ -42,7 +42,7 @@ Step Two:
 * Navigate to **Discovery > Edit Discovery Sources > Select your Active Directory Source > Click on Scanner Settings Tab**
 * Scroll to **Find Accounts** section and click **Add New Local Account Scanner**
 
-![Create New Scanner](https://raw.github.com/imgs/scanner-2.PNG?raw=true)
+![Create New Scanner](https://github.com/thycotic/Discovery/sql/master/imgs/scanner-1.PNG?raw=true/imgs/scanner-2.PNG?raw=true)
 
 * Add the Scanner we just created
 
