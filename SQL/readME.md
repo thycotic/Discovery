@@ -46,11 +46,11 @@ Step Two:
 
 * Add the Scanner we just created
 
-![Create New Scanner](imgs/scanner-3.png)
+![Create New Scanner](imgs/scanner-3.PNG)
 
 * Click **Add Secret** and add your Privileged Account Secret
 
-![Create New Scanner](imgs/scanner-4.png)
+![Create New Scanner](imgs/scanner-4.PNG)
 
 > Run Discovery again, and the new Scanner will start Discovering SQL Accounts
     
