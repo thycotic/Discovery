@@ -34,7 +34,7 @@ Step One:
     * **Script**: Select your Script
     * **Script Arguments**: $target
 
-![Create New Scanner](/imgs/scanner-1.png?raw=true)
+![Create New Scanner](/imgs/scanner-1.PNG?raw=true)
 
 Step Two:
 ====================
@@ -42,7 +42,7 @@ Step Two:
 * Navigate to **Discovery > Edit Discovery Sources > Select your Active Directory Source > Click on Scanner Settings Tab**
 * Scroll to **Find Accounts** section and click **Add New Local Account Scanner**
 
-![Create New Scanner](/imgs/scanner-2.png?raw=true)
+![Create New Scanner](/imgs/scanner-2.PNG?raw=true)
 
 * Add the Scanner we just created
 
