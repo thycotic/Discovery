@@ -1,8 +1,8 @@
-$privUser = $args[0]
-$privPassword = ConvertTo-SecureString $args[1] -AsPlainText -Force
-$privDomain =  $args[2]
-$ComputerName = $args[3]
-$Creds =  New-Object System.Management.Automation.PSCredential ($privUser, $privPassword)
+$privUser=$args[0]
+$privPassword=ConvertTo-SecureString $args[1] -AsPlainText -Force
+$privDomain=$args[2]
+$ComputerName=$args[3]
+$Creds=New-Object System.Management.Automation.PSCredential ($privUser, $privPassword)
 
 $script = {
     $checkRegistry = Get-ItemProperty "hklm:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" | Select DefaultDomainName, DefaultUserName
