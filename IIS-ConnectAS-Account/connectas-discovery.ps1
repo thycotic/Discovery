@@ -90,3 +90,5 @@ foreach($app in $apps){
 return $dependencies
 }
 Invoke-Command -ComputerName $computerName -ScriptBlock $scriptBlock
+
+#testing github and VisualStudio code
