@@ -90,3 +90,4 @@ foreach($app in $apps){
 return $dependencies
 }
 Invoke-Command -ComputerName $computerName -ScriptBlock $scriptBlock
+#Testing git
