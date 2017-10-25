@@ -1,5 +1,5 @@
 # Discovery
-Repo for Extensible Discovery. These scripts are offered as is and are not covered by Thycotic's regular support policy. Should you need help implementing these scripts or getting them to work then it falls under Professional Services. We recommend that you have a powershell expert on hand to help with troubleshooting/implementing.
+Repo for Extensible Discovery. 
 
 # Tokens used for Dependencies and Account Scanning
 
