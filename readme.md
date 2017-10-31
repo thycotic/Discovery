@@ -1,5 +1,5 @@
 # Discovery
-Repo for Extensible Discovery
+Repo for Extensible Discovery. 
 
 # Tokens used for Dependencies and Account Scanning
 
