@@ -60,7 +60,7 @@ $users = @()
      {
          $accountName =$user.loginname
          
-         $object = New-Object –TypeName PSObject;
+         $object = New-Object PSObject;
   
          $object | Add-Member -MemberType NoteProperty -Name Resource -Value $ComputerName;
          $object | Add-Member -MemberType NoteProperty -Name UserName -Value $accountName;
