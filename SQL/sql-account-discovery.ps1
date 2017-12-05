@@ -1,4 +1,4 @@
-$ComputerName = "SQL"
+$ComputerName = $args[0]
 #check for SQL server
 try{
 $GetSqlService = Get-WmiObject -Class win32_service -ComputerName $ComputerName -ErrorAction Stop| Where {$_.Name -Like "*MSSQL*"}
