@@ -1,7 +1,7 @@
-$ComputerName = $args[0]
+$ComputerName = "SQL"
 #check for SQL server
 try{
-$GetSqlService = Get-WmiObject -Class win32_service -ComputerName $ComputerName -ErrorAction Stop| Where {$_.Name -eq "MSSQLSERVER"}
+$GetSqlService = Get-WmiObject -Class win32_service -ComputerName $ComputerName -ErrorAction Stop| Where {$_.Name -Like "*MSSQL*"}
 }
 catch [System.Runtime.InteropServices.COMException]{
 Write-Debug "The computer '$ComputerName' does not exist or is inaccessible"
@@ -52,7 +52,12 @@ $sql = "select * from master..syslogins where hasaccess = 1 and [password] is no
 $database = "master"
 
 try {
- $targetInstance = $args[0]
+if ($GetSqlService.Name -ne 'MSSQLSERVER')
+    {
+        $SQLService=$GetSqlService.Name.Split('$')[1]
+    }
+
+ $targetInstance = $ComputerName+"\"+$SQLService
  $table = Invoke-SqlCommand -Server $targetInstance  -Database $database -Query $sql -UseWindowsAuthentication
 $users = @()
  
@@ -62,7 +67,7 @@ $users = @()
          
          $object = New-Object PSObject;
   
-         $object | Add-Member -MemberType NoteProperty -Name Resource -Value $ComputerName;
+         $object | Add-Member -MemberType NoteProperty -Name Machine -Value ($ComputerName+"\"+$SQLService);
          $object | Add-Member -MemberType NoteProperty -Name UserName -Value $accountName;
          $object | Add-Member -MemberType NoteProperty -Name Database -Value 'master';
          $object | Add-Member -MemberType NoteProperty -Name Enabled -Value  $true;
