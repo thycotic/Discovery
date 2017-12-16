@@ -1,16 +1,16 @@
-$ComputerName = $args[0]
+$computerName = $args[0]
 #check for SQL server
 try
     {
-        $GetSqlService = Get-WmiObject -Class win32_service -ComputerName $ComputerName -ErrorAction Stop| Where {$_.Name -Like "*MSSQL*"}
+        $getSqlService = Get-WmiObject -Class win32_service -ComputerName $computerName -ErrorAction Stop| Where {$_.Name -Like "*MSSQL*"}
     }
 catch [System.Runtime.InteropServices.COMException]
     {
-        Write-Debug "The computer '$ComputerName' does not exist or is inaccessible"
+        Write-Debug "The computer '$computerName' does not exist or is inaccessible"
         Write-Debug "Exception Message: $($_.exception.message)"
         Write-Debug "Stacktrace: $($_.exception.stacktrace)"
     }
-if($GetSqlService -ne $NULL)
+if($getSqlService -ne $NULL)
     {
         function Invoke-SqlCommand() 
             {
@@ -51,11 +51,11 @@ if($GetSqlService -ne $NULL)
         $database = "master"
         try 
             {
-                $targetInstance = $ComputerName
-                if ($GetSqlService.Name -ne 'MSSQLSERVER')
+                $targetInstance = $computerName
+                if ($getSqlService.Name -ne 'MSSQLSERVER')
                     {
-                        $SQLService=$GetSqlService.Name.Split('$')[1]
-                        $targetInstance+="\"+$SQLService
+                        $sqlService=$getSqlService.Name.Split('$')[1]
+                        $targetInstance+="\"+$sqlService
                     }
                 $table = Invoke-SqlCommand -Server $targetInstance  -Database $database -Query $sql -UseWindowsAuthentication
                 $users = @()
