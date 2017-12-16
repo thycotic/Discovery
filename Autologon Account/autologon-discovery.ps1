@@ -10,9 +10,7 @@ $script = {
     $DefaultUserName=$checkRegistry.DefaultUserName
 try 
 {
-    $Application = "autologon.exe"
-    $GetAutoLogon=Get-ChildItem -Path <path to autologo.exe> -ErrorAction Stop | where {$_.Name -eq $Application}
-    $ServiceName = $GetAutoLogon.Name
+    $ServiceName = "autologon"
     $Dependency = @()
     $userObj = New-Object -TypeName psobject
     $userObj | Add-Member -MemberType NoteProperty -Name Machine -Value $env:COMPUTERNAME
@@ -23,7 +21,7 @@ try
     return $Dependency;
 
 }
-catch [System.Management.Automation.ItemNotFoundException]
+catch
 {
     throw "No AutoLogon Dependencies found on $env:COMPUTERNAME" #needed till we fix discovery. Not adding "throw" will result in "No Dependencies Found" error for computers without autologn
 }
