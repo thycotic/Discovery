@@ -26,4 +26,4 @@ catch
     throw "No AutoLogon Dependencies found on $env:COMPUTERNAME" #needed till we fix discovery. Not adding "throw" will result in "No Dependencies Found" error for computers without autologn
 }
 }
-Invoke-Command -ComputerName $ComputerName -ScriptBlock $script
+Invoke-Command -ComputerName $ComputerName -ScriptBlock $script #-Credential $creds #this is optional, only use if you're having trouble connecting
