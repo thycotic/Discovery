@@ -1,8 +1,6 @@
-Autologon Dependency Discovery
-====================
+# Autologon Dependency Discovery
 
 The Autologon Account Discovery will find accounts in the registry, and Autologon.exe. This script is essential for finding these accounts, and making them a dependency
-
 
 | Environment | Version |
 | ------ | ------ |
@@ -10,18 +8,19 @@ The Autologon Account Discovery will find accounts in the registry, and Autologo
 | Operating System | Any Supported |
 | PowerShell | Windows Management Framework 3+ |
 
-#### Prerequisites: 
+## Prerequisites
+
 - Machines with Autologon preconfigured
 - Autologon.exe added to all compatible machines
 - Powershell remoting enabled on these machines
 
-#### Installation
+## Installation
 
 1. Apply Discover Autologon script:
- - **ADMIN** > **Scripts**
-2. Configure Scan Template: 
- - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Scan Templates** >
- - **Dependencies** > **Create New Scan Template**
+   - **ADMIN** > **Scripts**
+2. Configure Scan Template:
+    - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Scan Templates** >
+    - **Dependencies** > **Create New Scan Template**
 
     ![Scan Template Designer](imgs/scanner-1.PNG)
 
