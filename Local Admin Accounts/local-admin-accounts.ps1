@@ -22,13 +22,26 @@ Function Get-LocalAdmins {
     }# End Begin Block
  
     Process {
-        try {
-            Test-Connection -ComputerName $ComputerName -Count 1 -ErrorAction Stop | Out-Null
-            $group = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList "WinNT://$ComputerName/$GroupName,group",$Username, $Password
+        try{
+            $ports=@(135,445).ForEach({
+                Test-NetConnection -ComputerName $ComputerName -Port $_ -InformationLevel Quiet -ErrorAction Stop | Out-Null
+            });
+        }
+        catch{
+            throw "Port Scan Error: {0}" -f $_.exception.message
+        }
+        try{
+            $endPoint = "WinNT://$ComputerName/$GroupName,group"
+            $group = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $Password -ErrorAction Stop
+        }
+        catch{
+            throw "Error connection to machine: {0}" -f $_.exception.message
+        }
+        try{
             $members = @($group.Invoke("Members"));
-        }#end try
+        }
         catch {
-            throw $_.exception.message
+            throw "Error expanding group memebers: {0}" -f $_.exception.message
         }#end catch
         $members.ForEach({
             $name = $_.GetType().InvokeMember("Name", 'GetProperty', $null, $_, $null);
