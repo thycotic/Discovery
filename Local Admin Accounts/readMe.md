@@ -24,10 +24,11 @@ The Local Adminsitrators Account Discovery will find local admin accounts on the
         - **Input Template:** Windows Computer
         - **Output Template:** Local Windows Account
         - **Script:** Select  script from step 1
-        - **Arguments:** $target
+        - **Arguments:** $target $[1]$UserName $[1]$Password
 3. Adding the Scanner
     - **ADMIN** > **Discovery** > **Edit Discovery Sources** and select your source
     - Click on **Scanner Settings** Tab
     - Scroll down to **Find Local Accounts** > **Add New Local Account Scanner**
     - Select your scanner from the scanner list
+    - Add the Discovery Secret
 4. Run Discovery
