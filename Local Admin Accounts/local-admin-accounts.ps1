@@ -23,7 +23,8 @@ Function Get-LocalAdmins {
  
     Process {
         try{
-            $ports=@(135,445).ForEach({
+            $ports=@(135,445);
+            $ports.ForEach({
                 Test-NetConnection -ComputerName $ComputerName -Port $_ -InformationLevel Quiet -ErrorAction Stop | Out-Null
             });
         }
