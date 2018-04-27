@@ -35,7 +35,7 @@ Function Get-LocalAdmins {
             $group = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $Password -ErrorAction Stop
         }
         catch{
-            throw "Error connection to machine: {0}" -f $_.exception.message
+            throw "Error connecting to machine: {0}" -f $_.exception.message
         }
         try{
             $members = @($group.Invoke("Members"));
