@@ -2,7 +2,9 @@ Function Get-LocalAdmins {
     [Cmdletbinding()]
      Param (
         [string]$ComputerName,
-        [string]$GroupName
+        [string]$GroupName,
+        [string]$Username,
+        [string]$Password
     )
     Begin {
         $users = @();
@@ -22,8 +24,8 @@ Function Get-LocalAdmins {
     Process {
         try {
             Test-Connection -ComputerName $ComputerName -Count 1 -ErrorAction Stop | Out-Null
-            $group = ([ADSI]"WinNT://$ComputerName/$GroupName,group")
-            $members = @($group.psbase.Invoke("Members"));
+            $group = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList "WinNT://$ComputerName/$GroupName,group",$Username, $Password
+            $members = @($group.Invoke("Members"));
         }#end try
         catch {
             throw $_.exception.message
@@ -52,4 +54,4 @@ Function Get-LocalAdmins {
 }#Fuction End
 #we need to split the FQDN from the machine name
 $computerName = $args[0].split(".")[0]
-Get-LocalAdmins -ComputerName $computerName -GroupName "Administrators" -ErrorAction stop
+Get-LocalAdmins -ComputerName $computerName -GroupName "Administrators" -Username $args[1] -Password $args[2] -ErrorAction stop
