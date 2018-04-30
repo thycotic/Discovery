@@ -1,9 +1,8 @@
-Discover ConnectAs Account
-==========================
+# Discover ConnectAs Account
 
-What is ConnectAs?
-------------------
-ConnectAs credentials allows Websites, Virtual Directories, and Application in IIS to use alternatives credentials to connect to drives, and folders.
+## What is ConnectAs
+
+ConnectAs credentials allow Websites, Virtual Directories, and Applications in IIS to use alternatives credentials to connect to drives, and folders.
 
 | Environment | Version |
 | ------ | ------ |
@@ -11,17 +10,18 @@ ConnectAs credentials allows Websites, Virtual Directories, and Application in I
 | Operating System | Any Supported |
 | PowerShell | Windows Management Framework 3+ |
 
-#### Prerequisites: 
+## Prerequisites
+
 - Powershell remoting enabled on these machines
 - WebAdministration PowerShell Module installed on the remote machines
 
-#### Installation
+## Installation
 
 1. Apply Discover ConnectAs script:
- - **ADMIN** > **Scripts**
-2. Configure Scan Template: 
- - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Scan Templates** >
- - **Dependencies** > **Create New Scan Template**
+    - **ADMIN** > **Scripts**
+2. Configure Scan Template:
+    - **ADMIN** > **Discovery** > **Extensible Discovery** > **Configure Scan Templates** >
+    - **Dependencies** > **Create New Scan Template**
 
     ![Scan Template Designer](imgs/scanner-1.PNG)
 
@@ -45,4 +45,4 @@ ConnectAs credentials allows Websites, Virtual Directories, and Application in I
 
 5. Run Discovery, PROFIT!
     - The new scanner will find the Dependencies
-    - You will not be able to import without a Dependency template with a changer
+    - You will not be able to import without a [Dependency a dependency changer](https://github.com/thycotic/PasswordChangers/tree/master/Dependencies/ConnectAS "ConnectAS Changer")
