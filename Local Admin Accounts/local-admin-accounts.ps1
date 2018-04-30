@@ -29,20 +29,20 @@ Function Get-LocalAdmins {
             });
         }
         catch{
-            throw "Port Scan Error: {0}" -f $_.exception.message
+            throw "Port Scan: {0}" -f $_.exception.message
         }
         try{
             $endPoint = "WinNT://$ComputerName/$GroupName,group"
-            $group = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $Password -ErrorAction Stop
+            New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $Password -OutVariable group -ErrorAction Stop
         }
         catch{
-            throw "Error connecting to machine: {0}" -f $_.exception.message
+            throw "Directory Entry: {0}" -f $_.exception.message
         }
         try{
             $members = @($group.Invoke("Members"));
         }
         catch {
-            throw "Error expanding group memebers: {0}" -f $_.exception.message
+            throw "Group Memebers: {0}" -f $_.exception.message
         }#end catch
         $members.ForEach({
             $name = $_.GetType().InvokeMember("Name", 'GetProperty', $null, $_, $null);

@@ -45,4 +45,4 @@ The Autologon Account Discovery will find accounts in the registry, and Autologo
 5. Run Discovery
     - The new scanner will find the Dependencies
     - You will not be able to import without a Dependency template
-    - Please follow the guide in Remote Password Changing folder
+    - Please follow the guide in [Remote Password Changing repo](https://github.com/thycotic/PasswordChangers/tree/master/Dependencies/Autologon "Autologon Changer")
