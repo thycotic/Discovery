@@ -2,28 +2,25 @@ $privUser=$args[0]
 $privPassword=ConvertTo-SecureString $args[1] -AsPlainText -Force
 $privDomain=$args[2]
 $ComputerName=$args[3]
-$Creds=New-Object System.Management.Automation.PSCredential ($privUser, $privPassword)
+$creds=New-Object System.Management.Automation.PSCredential ($("$privDomain\$privUser"), $privPassword)
 
-$script = {
-    $checkRegistry = Get-ItemProperty "hklm:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" | Select DefaultDomainName, DefaultUserName
-    $DefaultDomainName = $checkRegistry.DefaultDomainName
-    $DefaultUserName=$checkRegistry.DefaultUserName
-try 
-{
+$scriptBlock = {
+    try{
+        $checkRegistry = Get-ItemProperty "hklm:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -ErrorAction Stop | Select-Object DefaultDomainName, DefaultUserName -ErrorAction Stop
+        $DefaultDomainName = $checkRegistry.DefaultDomainName
+        $DefaultUserName=$checkRegistry.DefaultUserName
+    }
+    catch{
+        throw "No AutoLogon Dependencies found on $env:COMPUTERNAME" 
+    }
     $ServiceName = "autologon"
     $Dependency = @()
-    $userObj = New-Object -TypeName psobject
-    $userObj | Add-Member -MemberType NoteProperty -Name Machine -Value $env:COMPUTERNAME
-    $userObj | Add-Member -MemberType NoteProperty -Name ServiceName -Value $ServiceName
-    $userObj | Add-Member -MemberType NoteProperty -Name Username -Value $DefaultUserName
-    $userObj | Add-Member -MemberType NoteProperty -Name Domain -Value $DefaultDomainName
-    $Dependency +=$userObj
+    $obj = "" | Select-Object Machine, ServiceName, Username, Domain
+    $obj.Machine = $env:COMPUTERNAME
+    $obj.ServiceName = $ServiceName
+    $obj.Username = $DefaultUserName
+    $obj.Domain = $DefaultDomainName
+    $Dependency +=$obj
     return $Dependency;
-
 }
-catch
-{
-    throw "No AutoLogon Dependencies found on $env:COMPUTERNAME" #needed till we fix discovery. Not adding "throw" will result in "No Dependencies Found" error for computers without autologn
-}
-}
-Invoke-Command -ComputerName $ComputerName -ScriptBlock $script
+Invoke-Command -ComputerName $ComputerName -ScriptBlock $scriptBlock -Credential $creds
