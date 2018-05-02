@@ -5,7 +5,7 @@ $webSites = Get-Website
 $dependencies =@()
 ForEach($webSite in $webSites)
 {
-    $siteName = ($webSite | Select -Property "Name").name
+    $siteName = ($webSite | Select-Object -Property "Name").name
     $filter = "system.applicationHost/sites/site[@name='$siteName']/application[@path='/']/virtualDirectory[@path='/']"
     $username=Get-WebConfigurationProperty $filter -Name "userName" | Where-Object {$_.Value -ne ''}
     $ServiceName=Get-WebConfigurationProperty $filter -Name "physicalPath" | Where-Object{$_.Value -ne ''}
