@@ -4,10 +4,14 @@ Function Get-LocalAdmins {
         [string]$ComputerName,
         [string]$GroupName,
         [string]$Username,
-        [string]$Password
+        [securestring]$SecurePassword
     )
     Begin {
+        #initialize the users array
         $users = @();
+        #convert securestring back to string
+        $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePassword)
+        $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
         #Convert disabled User flags to readable format. Credit Boe Prox
         Function Convert-UserFlag  {
             Param ($UserFlag)
@@ -20,30 +24,29 @@ Function Get-LocalAdmins {
             return $List
         }
     }# End Begin Block
- 
     Process {
         try{
             $ports=@(135,445);
             $ports.ForEach({
-                Test-NetConnection -ComputerName $ComputerName -Port $_ -InformationLevel Quiet -ErrorAction Stop | Out-Null
+                Test-NetConnection -ComputerName $ComputerName -Port $_ -InformationLevel Quiet -ErrorAction Stop -WarningAction Stop | Out-Null
             });
         }
-        catch{
+        catch {
             throw "Port Scan: {0}" -f $_.exception.message
         }
-        try{
+        try {
             $endPoint = "WinNT://$ComputerName/$GroupName,group"
-            New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $Password -OutVariable group -ErrorAction Stop
+            New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $password -OutVariable group -ErrorAction Stop | Out-Null
         }
-        catch{
+        catch {
             throw "Directory Entry: {0}" -f $_.exception.message
         }
-        try{
+        try {
             $members = @($group.Invoke("Members"));
         }
         catch {
             throw "Group Memebers: {0}" -f $_.exception.message
-        }#end catch
+        }
         $members.ForEach({
             $name = $_.GetType().InvokeMember("Name", 'GetProperty', $null, $_, $null);
             $adsPath = $_.GetType().InvokeMember("ADsPath", 'GetProperty', $null, $_, $null);
@@ -68,4 +71,4 @@ Function Get-LocalAdmins {
 }#Fuction End
 #we need to split the FQDN from the machine name
 $computerName = $args[0].split(".")[0]
-Get-LocalAdmins -ComputerName $computerName -GroupName "Administrators" -Username $args[1] -Password $args[2] -ErrorAction stop
+Get-LocalAdmins -ComputerName $computerName -GroupName "Administrators" -Username $args[1] -SecurePassword (ConvertTo-SecureString $args[2] -AsPlainText -Force) -ErrorAction stop
