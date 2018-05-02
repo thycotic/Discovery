@@ -12,8 +12,10 @@ Function Get-LocalAdmins {
         #convert securestring back to string
         $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePassword)
         $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+        #clear securestring from memory
+        $SecurePassword.Dispose()
         #Convert disabled User flags to readable format. Credit Boe Prox
-        Function Convert-UserFlag  {
+        Function Convert-UserFlag {
             Param ($UserFlag)
             $List = New-Object System.Collections.ArrayList
             Switch  ($UserFlag) {
@@ -37,6 +39,7 @@ Function Get-LocalAdmins {
         try {
             $endPoint = "WinNT://$ComputerName/$GroupName,group"
             New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $password -OutVariable group -ErrorAction Stop | Out-Null
+            $password = $null
         }
         catch {
             throw "Directory Entry: {0}" -f $_.exception.message
