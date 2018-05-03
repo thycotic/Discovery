@@ -3,7 +3,6 @@ function Invoke-SqlCommand() {
     [cmdletbinding(DefaultParameterSetName="integrated")]
     Param (
         [Parameter(Mandatory=$true)][Alias("Serverinstance")][string]$Server,
-        [Parameter(Mandatory=$false)][string]$Database="master",
         [Parameter(Mandatory=$true, ParameterSetName="not_integrated")][string]$Username,
         [Parameter(Mandatory=$true, ParameterSetName="not_integrated")][string]$Password,
         [Parameter(Mandatory=$false, ParameterSetName="integrated")][switch]$UseWindowsAuthentication,
@@ -22,12 +21,12 @@ function Invoke-SqlCommand() {
     $connection.Open()
     #build query object
     $command = $connection.CreateCommand()
-    $query = "select loginname, dbname 
-        from $Database..syslogins 
-        where hasaccess = 1 
-        and [password] is not null 
-        and (sysadmin = 1 or securityadmin = 1 or serveradmin = 1) 
-        and isntname = 0"
+    $query = "SELECT loginname, dbname 
+        FROM syslogins 
+        WHERE hasaccess = 1 
+        AND [password] is not null 
+        AND (sysadmin = 1 or securityadmin = 1 or serveradmin = 1) 
+        AND isntname = 0"
     $command.CommandText = $query  
     $command.CommandTimeout = $CommandTimeout
     #run query
@@ -80,5 +79,5 @@ if($sqlService.Count -ne 0) {
 
 }
 else {
-    throw "No SQL Accounts Found on Computer"
+    throw "No SQL Servers Found on Computer"
 }
