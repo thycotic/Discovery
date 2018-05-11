@@ -37,15 +37,22 @@ Function Get-LocalAdmins {
             throw "Port Scan: {0}" -f $_.exception.message
         }
         try {
-            $endPoint = "WinNT://$ComputerName/$GroupName,group"
-            New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $password -OutVariable group -ErrorAction Stop | Out-Null
+            $endPoint = "WinNT://$ComputerName/$GroupName,computer"
+            New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $password -OutVariable computer -ErrorAction Stop | Out-Null
             $password = $null
         }
         catch {
             throw "Directory Entry: {0}" -f $_.exception.message
         }
         try {
-            $members = @($group.Invoke("Members"));
+            $groups = $computer.Children | Where-Object { $_.schemaclassname -eq 'group' }
+            $groups.ForEach({
+                $strSID = (New-Object System.Security.Principal.SecurityIdentifier($_.objectSid.value,0)).Value 
+                if($strSID -eq "S-1-5-32-544") {
+                    $members = @($_.Invoke("Members"))
+                }
+            });
+            #return $members
         }
         catch {
             throw "Group Memebers: {0}" -f $_.exception.message

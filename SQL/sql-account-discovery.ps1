@@ -1,5 +1,5 @@
 $computerName = $args[0]
-function Invoke-SqlCommand() {
+function Invoke-SqlCommand {
     [cmdletbinding(DefaultParameterSetName="integrated")]
     Param (
         [Parameter(Mandatory=$true)][Alias("Serverinstance")][string]$Server,
