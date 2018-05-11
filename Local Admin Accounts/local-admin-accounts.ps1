@@ -2,7 +2,6 @@ Function Get-LocalAdmins {
     [Cmdletbinding()]
      Param (
         [string]$ComputerName,
-        [string]$GroupName,
         [string]$Username,
         [securestring]$SecurePassword
     )
@@ -37,7 +36,7 @@ Function Get-LocalAdmins {
             throw "Port Scan: {0}" -f $_.exception.message
         }
         try {
-            $endPoint = "WinNT://$ComputerName/$GroupName,computer"
+            $endPoint = "WinNT://$ComputerName,computer"
             New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $endPoint,$Username, $password -OutVariable computer -ErrorAction Stop | Out-Null
             $password = $null
         }
@@ -81,4 +80,4 @@ Function Get-LocalAdmins {
 }#Fuction End
 #we need to split the FQDN from the machine name
 $computerName = $args[0].split(".")[0]
-Get-LocalAdmins -ComputerName $computerName -GroupName "Administrators" -Username $args[1] -SecurePassword (ConvertTo-SecureString $args[2] -AsPlainText -Force) -ErrorAction stop
+Get-LocalAdmins -ComputerName $computerName -Username $args[1] -SecurePassword (ConvertTo-SecureString $args[2] -AsPlainText -Force) -ErrorAction stop
