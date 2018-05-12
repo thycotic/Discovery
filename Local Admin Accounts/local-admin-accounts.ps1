@@ -6,8 +6,8 @@ Function Get-LocalAdmins {
         [securestring]$SecurePassword
     )
     Begin {
-        #initialize the users array
-        $users = @();
+        #initialize the accounts array
+        $accounts = @();
         #convert securestring back to string
         $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePassword)
         $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
@@ -66,15 +66,15 @@ Function Get-LocalAdmins {
             if($status -ne "Disabled" -and $class -eq "user" ) {
                 # If the account is local, then add it to the object
                 if ($adsPath -like "*/$ComputerName/*") {
-                    $userObj = "" | Select-Object Machine,Username,Enabled
-                    $userObj.Machine = $ComputerName
-                    $userObj.Username = $name
-                    $userObj.Enabled = $true
-                    $users += $userObj
+                    $account = "" | Select-Object Machine,Username,Enabled
+                    $account.Machine = $ComputerName
+                    $account.Username = $name
+                    $account.Enabled = $true
+                    $accounts += $account
                 }
             }
         });
-        return $users
+        return $accounts
     }#End Process Block
 }#Fuction End
 #we need to split the FQDN from the machine name
