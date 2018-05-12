@@ -51,7 +51,6 @@ Function Get-LocalAdmins {
                     $members = @($_.Invoke("Members"))
                 }
             });
-            #return $members
         }
         catch {
             throw "Group Memebers: {0}" -f $_.exception.message
