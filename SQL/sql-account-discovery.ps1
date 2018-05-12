@@ -1,4 +1,4 @@
-$computerName = $arg[0]
+$computerName = $args[0]
 function Invoke-SqlCommand {
     [cmdletbinding(DefaultParameterSetName="integrated")]
     Param (
