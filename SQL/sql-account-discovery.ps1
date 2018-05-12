@@ -21,12 +21,12 @@ function Invoke-SqlCommand {
     $connection.Open()
     #build query object
     $command = $connection.CreateCommand()
-    $query = "SELECT loginname, dbname 
-        FROM syslogins 
-        WHERE hasaccess = 1 
-        AND [password] is not null 
-        AND (sysadmin = 1 or securityadmin = 1 or serveradmin = 1) 
-        AND isntname = 0"
+    $query="SELECT loginname, dbname 
+            FROM syslogins 
+            WHERE hasaccess = 1 
+            AND [password] is not null 
+            AND (sysadmin = 1 or securityadmin = 1 or serveradmin = 1) 
+            AND isntname = 0"
     $command.CommandText = $query  
     $command.CommandTimeout = $CommandTimeout
     #run query
@@ -48,33 +48,34 @@ try {
     $sqlService = @(Get-WmiObject -Class win32_service -ComputerName $computerName -Filter {DisplayName LIKE 'SQL Server (%'} -ErrorAction Stop)
 }
 catch [System.Runtime.InteropServices.COMException] {
-    Write-Debug "The computer '$computerName' does not exist or is inaccessible"
-    Write-Debug "Exception Message: $($_.exception.message)"
-    Write-Debug "Stacktrace: $($_.exception.stacktrace)"
-    throw "Error connecting to $computerName : $($_.exception.message)"
+    throw "Error connecting to ${$computerName}: $($_.Exception.Message)"
 }
+#initialize the accounts array
+$accounts = @()  
 if($sqlService.Count -ne 0) {
     try {
     $sqlService.ForEach({
         if ($_.Name -ne 'MSSQLSERVER') {
-            $instanceName=$_.Name.Split('$')[1]
-            $computerName+="\"+$instanceName
+            $sqlInstance = "${$computerName}\$($_.Name.Split('$')[1])"
         }
-    });
-        $users = @()    
-        $table = Invoke-SqlCommand -Server $computerName -UseWindowsAuthentication
+        else {
+            $sqlInstance = $computerName
+        }
+        #we insert the resutls in an array in case we only get one account back. Not doing so will throw a method doesn't exist error when calling the ForEach method
+        $table = @(Invoke-SqlCommand -Server $sqlInstance -UseWindowsAuthentication)
         $table.forEach({
-            $object = "" | Select-Object Machine, UserName, Database, Enabled
-            $object.Machine = $computerName;
-            $object.UserName = $_.loginname;
-            $object.Database = $_.dbname;
-            $object.Enabled = $true;
-            $users +=$object
+            $account = "" | Select-Object Machine, UserName, Database, Enabled
+            $account.Machine = $computerName;
+            $account.UserName = $_.loginname;
+            $account.Database = $_.dbname;
+            $account.Enabled = $true;
+            $accounts +=$account
         });
-        return $users
+    });
+    return accounts
     }
     catch {
-        throw $("SQL error: $($_.Exception.message)")
+        throw "SQL error: $($_.Exception.Message)"
     }
 
 }
