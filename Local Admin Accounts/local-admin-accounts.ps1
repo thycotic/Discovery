@@ -45,12 +45,14 @@ Function Get-LocalAdmins {
         }
         try {
             $groups = $computer.Children | Where-Object { $_.schemaclassname -eq 'group' }
-            $groups.ForEach({
-                $strSID = (New-Object System.Security.Principal.SecurityIdentifier($_.objectSid.value,0)).Value 
+            #I'm using the foreach construct instead of the method because the method doesn't work well with break keyword
+            ForEach($_ in $groups) {
+                $strSID = (New-Object System.Security.Principal.SecurityIdentifier($_.objectSid.value,0)).Value
                 if($strSID -eq "S-1-5-32-544") {
                     $members = @($_.Invoke("Members"))
+                    break;
                 }
-            });
+            }
         }
         catch {
             throw "Group Memebers: {0}" -f $_.exception.message
