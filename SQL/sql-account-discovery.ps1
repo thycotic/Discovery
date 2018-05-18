@@ -56,7 +56,7 @@ if($sqlService.Count -ne 0) {
     try {
     $sqlService.ForEach({
         if ($_.Name -ne 'MSSQLSERVER') {
-            $sqlInstance = "${$computerName}\$($_.Name.Split('$')[1])"
+            $sqlInstance = "$computerName\$($_.Name.Split('$')[1])"
         }
         else {
             $sqlInstance = $computerName
@@ -72,7 +72,7 @@ if($sqlService.Count -ne 0) {
             $accounts +=$account
         });
     });
-    return accounts
+    return $accounts
     }
     catch {
         throw "SQL error: $($_.Exception.Message)"
