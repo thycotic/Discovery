@@ -48,7 +48,7 @@ try {
     $sqlService = @(Get-WmiObject -Class win32_service -ComputerName $computerName -Filter {DisplayName LIKE 'SQL Server (%'} -ErrorAction Stop)
 }
 catch [System.Runtime.InteropServices.COMException] {
-    throw "Error connecting to ${$computerName}: $($_.Exception.Message)"
+    throw "Error connecting to ${computerName}: $($_.Exception.Message)"
 }
 #initialize the accounts array
 $accounts = @()  
@@ -65,7 +65,7 @@ if($sqlService.Count -ne 0) {
         $table = @(Invoke-SqlCommand -Server $sqlInstance -UseWindowsAuthentication)
         $table.forEach({
             $account = "" | Select-Object Machine, UserName, Database, Enabled
-            $account.Machine = $computerName;
+            $account.Machine = $sqlInstance;
             $account.UserName = $_.loginname;
             $account.Database = $_.dbname;
             $account.Enabled = $true;
