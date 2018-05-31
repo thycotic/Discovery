@@ -5,12 +5,12 @@ $ComputerName=$args[3]
 $creds=New-Object System.Management.Automation.PSCredential ($("$privDomain\$privUser"), $privPassword)
 
 $scriptBlock = {
-    try{
+    try {
         $checkRegistry = Get-ItemProperty "hklm:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -ErrorAction Stop | Select-Object DefaultDomainName, DefaultUserName -ErrorAction Stop
         $DefaultDomainName = $checkRegistry.DefaultDomainName
         $DefaultUserName=$checkRegistry.DefaultUserName
     }
-    catch{
+    catch {
         throw "No AutoLogon Dependencies found on $env:COMPUTERNAME" 
     }
     $ServiceName = "autologon"
