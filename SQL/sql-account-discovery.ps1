@@ -43,11 +43,59 @@ function Invoke-SqlCommand {
     $connection.Close()
     return $table
 }#end function
+#function to test ports
+function Test-Port {
+    Param(
+        [string]$ComputerName,
+        [int]$Port,
+        [int]$Timeout,
+        [switch]$Verbose
+    )
+    $ErrorActionPreference = "SilentlyContinue"
+    # Create TCP Client
+    $tcpClient = New-Object System.Net.Sockets.TcpClient
+    # Begin Async connection to remote host on specified port
+    $beginConnect = $tcpClient.BeginConnect($ComputerName,$Port,$null,$null)
+    # Set the wait time
+    $wait = $beginConnect.AsyncWaitHandle.WaitOne($Timeout,$false)
+    # Check to see if the connection is done
+    if(!$wait) {
+        # Close the connection and report timeout
+        $tcpClient.Close()
+        if($Verbose){
+            Write-Host "Connection Timeout"
+        }
+        return $false
+    }
+    else {
+        # Close the connection and report the error if there is one
+        $error.Clear()
+        $tcpclient.EndConnect($beginConnect) | out-Null
+        if(!$?){
+            if($verbose){
+                Write-Host $_.Exception.Message
+            }
+            $failed = $true
+        }
+        $tcpclient.Close()
+    }
+    # Return $true if connection Establish else $False
+    if($failed) {
+        return $false
+    }
+    else {
+        return $true
+    }
+}
 #check for SQL server
 try {
-    $sqlService = @(Get-WmiObject -Class win32_service -ComputerName $computerName -Filter {DisplayName LIKE 'SQL Server (%'} -ErrorAction Stop)
+    $port=Test-Port -ComputerName $computerName -Port 445 -Timeout 30000
+    if(!$port) {
+        throw "Connection timeout"
+    }
+    $sqlService = @(Get-Service -ComputerName $computerName -DisplayName "SQL Server (*", "MSSQL$*"| Where {$_.Status -eq "Running"} -ErrorAction Stop)
 }
-catch [System.Runtime.InteropServices.COMException] {
+catch {
     throw "Error connecting to ${computerName}: $($_.Exception.Message)"
 }
 #initialize the accounts array
