@@ -1,5 +1,15 @@
 # Windows Local Account Service Discovery
 
+### Prerequisites:
+
+In order to conduct extensible discovery, PS Remoting, and CredSSP need to be configured.
+1)Enable-PSRemoting
+	https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Core/Enable-PSRemoting?view=powershell-5.1
+2)Enable-WSManCredSSP
+	https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-6
+
+### Procedure
+
 Add the Script "LocalAccountServiceDiscovery.ps1" to Secret Server under Admin > Scripts > Powershell Tab > Create New
 
 Paste the script into the box, and give it a name.
@@ -33,4 +43,7 @@ Navigate to Admin > Discovery > Extensible Discovery > Configure Dependency Temp
 ### Add the discovery Scanner to your Discovery Source:
 
 Navigate to Admin > Discovery > Edit Discovery Sources > Choose the domain you’d like to discovery on > Scanner Settings > Find Dependencies > Add New Dependency Scanner
+
 Associate You can use the same Account for normal Service Account Discovery on this scanner.
+
+Finally, Run Discovery and the Local Accounts running windows services will be discovered.
