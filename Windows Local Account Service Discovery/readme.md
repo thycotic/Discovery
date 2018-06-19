@@ -3,9 +3,9 @@
 ### Prerequisites:
 
 In order to conduct extensible discovery, PS Remoting, and CredSSP need to be configured.
-1)Enable-PSRemoting
+1) Enable-PSRemoting:
 	https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Core/Enable-PSRemoting?view=powershell-5.1
-2)Enable-WSManCredSSP
+2) Enable-WSManCredSSP:
 	https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-6
 
 ### Procedure
