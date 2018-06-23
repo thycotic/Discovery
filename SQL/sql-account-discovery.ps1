@@ -9,7 +9,7 @@ function Invoke-SqlCommand {
         [Parameter(Mandatory=$false)][int]$CommandTimeout=0
     )
     #build connection string
-    $connstring = "Server=$Server; Database=$Database; "
+    $connstring = "Server=$Server;"
     If ($PSCmdlet.ParameterSetName -eq "not_integrated") {
         $connstring += "User ID=$Username; Password=$Password;"
     }
