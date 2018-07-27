@@ -63,7 +63,7 @@ Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=$ComputerName)(PORT=1521))
 #Start an SSH session to get the oracle instances
 ##
 ##
-$credential = New-Object System.Management.Automation.PSCredential -ArgumentList $args[0] ,$(ConvertTo-SecureString -AsPlainText $args[1] -Force)
+$credential = New-Object System.Management.Automation.PSCredential -ArgumentList $args[0], $(ConvertTo-SecureString -AsPlainText $args[1] -Force)
 try{
     $sshSession = New-SSHSession -ComputerName $args[2] -Credential $credential -Port 22 -Force -ErrorAction Stop
 }
