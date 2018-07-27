@@ -1,27 +1,24 @@
 ﻿#Pull the accounts  that are running services on the machine.
-$Machine = $Args[0]
-$accounts = Get-WMIObject Win32_Service -ComputerName $Machine  | Where-Object{($_.StartName -like ".\*") -and $_.StartName -notlike "*NT *"} 
- 
+$machine = $args[0]
+try {
+    $services = @(Get-WMIObject Win32_Service -ComputerName $machine  | Where-Object{($_.StartName -like ".\*") -and $_.StartName -notlike "*NT *"})
+}
+catch {
+    throw $_.Exception.Message
+}
  #In those accounts, find the ones that are local accounts, and add them to an array.
- if ($accounts) {                
- $dependencyaccounts = @()
- foreach($dependency in $accounts)
- {
- $object = New-Object PSObject
- $object | Add-Member -MemberType NoteProperty -Name ServiceName -Value $dependency.DisplayName
- $object | Add-Member -MemberType NoteProperty -Name Enabled -Value $dependency.Started
- if ($dependency.startname.contains('\'))
- {
-   $accountinfo = $dependency.startname.split('\')
-   $username = $accountinfo[1]
+ if ($services.count -ne 0) {                
+    $serviceAccounts = @()
+    $services.ForEach({
+        $object = "" | Select-Object DisplayName, Started, Username, Machine
+        $object.DisplayName = $_.DisplayName
+        $object.Started = $_.Started
+        $object.Username = $(if($_.startname.contains("\")) { $_.startname.split("\")[1] })
+        $object.Machine = $machine
+        $serviceAccounts +=$object
+    });
+    return $serviceAccounts
  }
- $object | Add-Member -MemberType NoteProperty -Name Username -Value $username
- $object | Add-Member -MemberType NoteProperty -Name Machine -Value $Machine
- $dependencyaccounts += $object
- $object = $null
- }
- return $dependencyaccounts
- }
- return $null
- 
- 
+else {
+    throw "No local account dependencies found"
+}
