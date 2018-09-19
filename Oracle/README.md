@@ -1,5 +1,13 @@
 # Oracle Local Account Discovery
 
+1. [Description](#description)
+1. [Setup](#setup)
+    * [Step One](#step-one)
+    * [Step Two](#step-two)
+1. [Important - For Oracle Discovery to work](#note)
+
+## Description
+
 The Oracle Account Discovery requires the creation of a Local Account Scan template. We can copy the  SQL Local Account template for the Script.  
 We will need to create a Local Account Discovery Scanner, and point it to the Oracle Scan template.
 
@@ -20,7 +28,7 @@ We will need to create a Local Account Discovery Scanner, and point it to the Or
 
 **Note**: The Script should work on any supported Oracle version, but it's only been tested against Oracle 11 and 12
 
-## Configuration
+## Setup
 
 ### Step One
 
@@ -46,6 +54,6 @@ We will need to create a Local Account Discovery Scanner, and point it to the Or
 * Add the Scanner we just created
 * Click **Add Secret** and add the account to run PowerShell then add the linux local account Secret and then the oracle local account secret
 
-#### For Oracle Discovery to work
+#### Note
 
 download the ODP.NET driver in the project, or download the latest ODAC driver from [Oracle Downloads](http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html)
