@@ -1,13 +1,12 @@
-#path to DLL
+# Test access to DLL
 try{
     $OMDA = "Oracle.ManagedDataAccess.dll" 
     $directoryName=(Get-ChildItem -Path "C:\oracle" -Include $OMDA -Recurse).DirectoryName
     $path =$("$directoryName\$OMDA")
     Add-Type -Path $path
 }
-
 catch {
-    throw "An Error occured loading the Oracle Data Provider: $($_.Exception.Message)"
+    throw "An error occured loading the Oracle Data Provider: $($_.Exception.Message)"
 }
 
 Function Get-OracleAccounts{
@@ -19,12 +18,14 @@ Function Get-OracleAccounts{
         [string]
         $ComputerName,
         [string]
-        $ServiceName
+        $ServiceName,
+        [string]
+        $Port
     )
     process{
         $connectionString =
 @"
-Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=$ComputerName)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=$ServiceName)));User Id="$UserName";Password=$Password
+Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=$ComputerName)(PORT=$Port))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=$ServiceName)));User Id="$UserName";Password=$Password
 "@
         try{
             $connection = New-Object Oracle.ManagedDataAccess.Client.OracleConnection($connectionString)
@@ -58,12 +59,11 @@ Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=$ComputerName)(PORT=1521))
         }
     }
 }
-##
-##
-#Start an SSH session to get the oracle instances
-##
-##
+
+# Grab Ports for Oracle Listeners
+
 $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $args[0], $(ConvertTo-SecureString -AsPlainText $args[1] -Force)
+#$credential = Get-Credential
 try{
     $sshSession = New-SSHSession -ComputerName $args[2] -Credential $credential -Port 22 -Force -ErrorAction Stop
 }
@@ -71,28 +71,32 @@ catch{
     throw "Error connecting to $($args[2]): $($_.Exception.Message)"
 }
 try {
-    $command =Invoke-SSHCommand -Command "ps -ef |grep pmon" -SSHSession $sshSession
+    # REPLACE home path of Discovery User Account - D
+    $command =Invoke-SSHCommand -Command "/home/thyco/discover.sh" -SSHSession $sshSession
+    # This will grab the file which is created by bash script on linux system
+    Get-SCPFile -ComputerName $args[2] -Credential $credential -Port 22 -RemoteFile "/home/thyco/oracleinfo.txt" -LocalFile "oracleinfo.txt"
     Remove-SSHSession -SSHSession $sshSession | Out-Null
 }
 catch {
-    throw $_.Exception.Message
+    throw "Error running Discover.sh and receiving ports: $($_.Exception.Message)"
 }
-$serviceNames=@($command.OutPut.forEach({
-    if($_ -like "*oracle*"){
-        $_.SubString($_.LastIndexOf("_")+1)
-    }
-});)
-##
-##
+
+# BUILD arrays of the connection details from oracleinfo file
+$services=@()
+$ports=@()
+$oraconnections = Get-Content "oracleinfo.txt"
+foreach ($line in $oraconnections){$ports+= $line.Split(" ")[0]}
+foreach ($line in $oraconnections){$services+= $line.Split(" ")[1]}
+
 #Build the user object
-##
-##
 $Accounts = @()
-if($serviceNames.Count -ne 0){
+if($services.Count -ne 0){
     try {
-        $serviceNames.ForEach({
-            $serviceName = $_
-            $results= @(Get-OracleAccounts -UserName $args[3] -Password $args[4] -ComputerName $args[2] -ServiceName $serviceName)
+        $s = 0
+        $services.ForEach({
+            $serviceName = $services[$s]
+            $ServicePort = $ports[$s]
+            $results= @(Get-OracleAccounts -UserName $args[3] -Password $args[4] -ComputerName $args[2] -ServiceName $serviceName -Port $ServicePort)
             $results.ForEach({
                 $usrObj= "" | Select-Object Machine, UserName, Role, Database,Port, Enabled
                 $usrObj.Machine = $args[2]
@@ -103,6 +107,7 @@ if($serviceNames.Count -ne 0){
                 $usrObj.Enabled = $true
                 $Accounts +=$usrObj
             });
+            $s++
         });
         return $Accounts
     }
