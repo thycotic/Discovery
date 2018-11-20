@@ -100,7 +100,7 @@ if($services.Count -ne 0){
             $results.ForEach({
                 $usrObj= "" | Select-Object Machine, UserName, Role, Database,Port, Enabled
                 $usrObj.Machine = $args[2]
-                $usrObj.Port = "1521"
+                $usrObj.Port = $ServicePort
                 $usrObj.Database = $serviceName
                 $usrObj.UserName = $_.GRANTEE
                 $usrObj.Role = $_.GRANTED_ROLE
