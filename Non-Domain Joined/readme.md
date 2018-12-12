@@ -2,10 +2,12 @@
  
 ## Pre-Requisites: Powershell Remoting
  
-Ensure WinRM is configured on the Secret Server
+Ensure WinRM is configured on the Secret Server:
+
 https://thycotic.force.com/support/s/article/Configuring-WinRM-for-PowerShell
  
 Ensure that CredSSP is enabled as Server on Secret Server machine:
+
 https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-WinRM-PowerShell
  
 **Note:** In order to conduct Powershell Remoting to non-domain Joined Machines, you will either create an HTTPS WinRM Listener, or you need to specify all of the WorkGroup Machines in your Trusted Hosts file for WinRM. The Trusted Hosts approach is not recommended could create some security vulnerabilities. Instead, WinRM Listeners can be configured for HTTPS to allow this traffic by default.
