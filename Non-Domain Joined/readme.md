@@ -1,4 +1,8 @@
 # WorkGroup Discovery
+
+## Purpose
+
+This script is an alternate Machine Scanner that will return machines from an IP address range that are not domain joined.
  
 ## Pre-Requisites: Powershell Remoting
  
