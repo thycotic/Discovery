@@ -32,6 +32,8 @@ https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-Wi
     +	Admin > Discovery > Extensible Discovery > Discovery Scanners > Machines > Create New Scanner
 +	Create the Scanner using the powershell script that we imported in the previous step.
  
+ ![](./images/WorkGroup Discovery Scanner.png) 
+ 
 +	The script will use the following arguments:
     +	$target $[1]$Machine $[1]$Username $[1]$Password
 
@@ -42,6 +44,8 @@ https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-Wi
 +	Choose "Unix Discovery Source" For the Discovery Type. This seems counter intuitive, but it will default to an IP address Scanner. 
 +	Follow the wizard and give the discovery source a Name, IP Address range to scan, and skip over the credential page. 
 +	On the Discovery Source Page, Delete any entries under "Find Machines", "Find Accounts", and "Find Dependencies"
+
+![](./images/DiscoveryScannerPage.png) 
 
 +	Create a new Machine Scanner, using the WorkGroup Machine scanner created earlier. You will be able to use the default Windows Local Account / Dependency scanners with this machine scanner. 
 **Note:** If each of the machines you will be scanning has a different local administrator password, you will need to create a Secret Search Filter in order to dynamically assign the proper credentials to access and pull information from the WorkGroup Machines. https://thycotic.force.com/support/s/article/Discovery-Secret-Search-Filter 
