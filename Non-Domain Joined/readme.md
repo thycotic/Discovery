@@ -32,7 +32,7 @@ https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-Wi
     +	Admin > Discovery > Extensible Discovery > Discovery Scanners > Machines > Create New Scanner
 +	Create the Scanner using the powershell script that we imported in the previous step.
  
- ![](./images/WorkGroup Discovery Scanner.png) 
+ ![](./images/WorkGroupDiscoveryScanner.png) 
  
 +	The script will use the following arguments:
     +	$target $[1]$Machine $[1]$Username $[1]$Password
