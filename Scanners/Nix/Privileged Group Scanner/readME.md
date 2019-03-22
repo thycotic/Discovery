@@ -21,7 +21,7 @@ This article assumes a Unix/Linux Discovery Source has already been defined, alo
 The below workflow is a high-level view of the flow specific to this custom scanner.
 
 
-![Discovery Flow](imgs/Flow.png)
+![Discovery Flow](imgs/Flow.PNG)
 ```mermaid
 graph TB
 A(Discovery Source) --> B(Host Range Scanner)
@@ -49,7 +49,7 @@ Use SSH to Find Unix Local Accounts on machines discovered in your host ranges.
 
 Discovery Scanners define how a specific item – host range, machine, account, or dependency – is discovered. The “Discovery Scanners” page contains a tab for each scan step and built-in scanners for the default scan actions.
 
-![Discovery Item Scanners](imgs/1.png)
+![Discovery Item Scanners](imgs/1.PNG)
 
 This article will focus on the "Local Accounts" tab.
 
@@ -59,11 +59,11 @@ This article will focus on the "Local Accounts" tab.
 ## Discovery Command Sets
 Discovery command sets are customizable sets of commands that are sent over an SSH connection to the machines being accessed by Discovery. 
 
-![Discovery Command Sets](imgs/2.png)
+![Discovery Command Sets](imgs/2.PNG)
 
 The commands in a Discovery Set will be executed sequentially in the order they are listed, but only the output of the final command will be returned. 
 
-![Find All Users - Command Set](imgs/3.png)
+![Find All Users - Command Set](imgs/3.PNG)
 
 
 ## Instructions
@@ -90,9 +90,10 @@ The commands in a Discovery Set will be executed sequentially in the order they 
 **Note:** There are various methods to parse users in privileged groups. The below is for education purposes and are specific to the test environment. Please contact your Linux/Unix Administrator on the appropriate commands necessary in your environment. The below command is targeting users who are in the wheel group specifically.
 
 ` privUsers=$(getent passwd | cut -d : -f 1 | xargs groups | grep wheel | awk {'print $1'})`
+
 ` getent passwd $privUsers` 
 
-![Code - Command Set](imgs/4.png)
+![Code - Command Set](imgs/4.PNG)
   
  #### Configure Discovery Scanner
 
@@ -104,7 +105,7 @@ The commands in a Discovery Set will be executed sequentially in the order they 
  6. Leave the Discovery Type, Base Scanner, Allow OU Input, Input Template, and Output Template at the default values
  7. Select the previously created Command Set 
 
-![New Discovery Scanner](imgs/5.png)
+![New Discovery Scanner](imgs/5.PNG)
 
 
 #### Configure Discovery Source - Account Scanner
@@ -115,7 +116,7 @@ The commands in a Discovery Set will be executed sequentially in the order they 
  4. Click on **+ Add New Account Scanner **
  5. Select the Scanner created in the previous step
 
-![Available Scanners](imgs/6.png)
+![Available Scanners](imgs/6.PNG)
 
 #### Configure Discovery Source - Scanner Settings
 
