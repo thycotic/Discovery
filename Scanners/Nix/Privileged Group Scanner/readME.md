@@ -21,7 +21,7 @@ This article assumes a Unix/Linux Discovery Source has already been defined, alo
 The below workflow is a high-level view of the flow specific to this custom scanner.
 
 
-![Discovery Flow](imgs/Flow.png)
+![Discovery Flow](/imgs/Flow.png)
 ```mermaid
 graph TB
 A(Discovery Source) --> B(Host Range Scanner)
