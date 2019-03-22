@@ -28,9 +28,6 @@ C --> D(Discovery Scanner)
 subgraph Account Scanner
 D --> E(Command Set)
 end
-
-
-
 ```
 The items in blue are the items we will be addressing in this article. 
 
@@ -50,7 +47,7 @@ Use SSH to Find Unix Local Accounts on machines discovered in your host ranges.
 
 Discovery Scanners define how a specific item – host range, machine, account, or dependency – is discovered. The “Discovery Scanners” page contains a tab for each scan step and built-in scanners for the default scan actions.
 
-![Discovery Item Scanners](img/Discovery Item Scanners.png)
+![Discovery Item Scanners](img/1.png)
 
 This article will focus on the "Local Accounts" tab.
 
@@ -60,11 +57,11 @@ This article will focus on the "Local Accounts" tab.
 ## Discovery Command Sets
 Discovery command sets are customizable sets of commands that are sent over an SSH connection to the machines being accessed by Discovery. 
 
-![Discovery Command Sets](dfd)
+![Discovery Command Sets](img/2.png)
 
 The commands in a Discovery Set will be executed sequentially in the order they are listed, but only the output of the final command will be returned. 
 
-![Find All Users - Command Set](df)
+![Find All Users - Command Set](img/3.png)
 
 
 ## Instructions
@@ -90,10 +87,10 @@ The commands in a Discovery Set will be executed sequentially in the order they 
 
 **Note:** There are various methods to parse users in privileged groups. The below is for education purposes and are specific to the test environment. Please contact your Linux/Unix Administrator on the appropriate commands necessary in your environment. The below command is targeting users who are in the wheel group specifically.
 
-`> privUsers=$(getent passwd | cut -d : -f 1 | xargs groups | grep wheel | awk {'print $1'})`
-`> getent passwd $privUsers` 
+` privUsers=$(getent passwd | cut -d : -f 1 | xargs groups | grep wheel | awk {'print $1'})`
+` getent passwd $privUsers` 
 
-![Code - Command Set](d)
+![Code - Command Set](img/4.png)
   
  #### Configure Discovery Scanner
 
@@ -105,7 +102,7 @@ The commands in a Discovery Set will be executed sequentially in the order they 
  6. Leave the Discovery Type, Base Scanner, Allow OU Input, Input Template, and Output Template at the default values
  7. Select the previously created Command Set 
 
-![New Discovery Scanner](asdf)
+![New Discovery Scanner](img/5.png)
 
 
 #### Configure Discovery Source - Account Scanner
@@ -116,10 +113,15 @@ The commands in a Discovery Set will be executed sequentially in the order they 
  4. Click on **+ Add New Account Scanner **
  5. Select the Scanner created in the previous step
 
-![Available Scanners](sdf)
+![Available Scanners](6.png)
 
 #### Configure Discovery Source - Scanner Settings
 
  1. Choose an account which has permissions to run the commands listed in the command set. (This example uses root, but it is not necessary to use this account)
  2. If all other settings are appropriate click on **OK**
 
+
+#### View Accounts
+ 1. Navigate to **ADMIN** > **Discovery** > **Discovery Network View**
+ 2. Select your Unix/Linux Discovery Source on the left column
+ 3. Click on the hostname/IP of your test endpoint
