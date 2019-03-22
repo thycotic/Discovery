@@ -1,9 +1,10 @@
+## Summary
+This article will instruct a Secret Server administrator on how to create a custom command set and a custom discovery scanner to locate users within a specific group in Unix/Linux. In this example we will be targeting users in the wheel group on CentOS 7.
+
+
 ## Unix/Linux Discovery 
 
 Secret Server is given a list of IP address ranges on the network to scan for. It will look for computers that are listening on the specified ports (default is 22). Secret Server will then attempt to use DNS to resolve the list of IP’s that are found with the goal of providing a more easily recognizable computer name. All computers found will be saved in the Secret Server database. Secret Server then attempts to connect to each computer using the provided credentials and query for the list of users on the target system.
-
-## Summary
-This article will instruct a Secret Server administrator on how to create a custom command set and a custom discovery scanner to locate users within a specific group in Unix/Linux. In this example we will be targeting users in the wheel group on CentOS 7.
 
 #### Prerequisites
 This article assumes a Unix/Linux Discovery Source has already been defined, along with an account with permissions to run the necessary commands. Please reference the Secret Server Discovery Guide for instructions on how to define a Unix/Linux Discovery Source and necessary permissions. 
@@ -49,7 +50,7 @@ Use SSH to Find Unix Local Accounts on machines discovered in your host ranges.
 
 Discovery Scanners define how a specific item – host range, machine, account, or dependency – is discovered. The “Discovery Scanners” page contains a tab for each scan step and built-in scanners for the default scan actions.
 
-![Discovery Item Scanners](fgdfg)
+![Discovery Item Scanners](/imgs/Discovery Item Scanners.png)
 
 This article will focus on the "Local Accounts" tab.
 
