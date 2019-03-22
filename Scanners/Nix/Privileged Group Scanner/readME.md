@@ -50,7 +50,7 @@ Use SSH to Find Unix Local Accounts on machines discovered in your host ranges.
 
 Discovery Scanners define how a specific item – host range, machine, account, or dependency – is discovered. The “Discovery Scanners” page contains a tab for each scan step and built-in scanners for the default scan actions.
 
-![Discovery Item Scanners](/imgs/Discovery Item Scanners.png)
+![Discovery Item Scanners](img/Discovery Item Scanners.png)
 
 This article will focus on the "Local Accounts" tab.
 
