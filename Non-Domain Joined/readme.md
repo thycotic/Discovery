@@ -21,9 +21,9 @@ https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-Wi
 +	All command listed below can be run from an administrative Powershell session.
 +	View current WinRM Listener Configuration:
 +	winrm e winrm/config/listener
-  +	NOTE: The certificate used must not be self-signed, it must have server/ client auth and contain appropriate FQDN of the Secret Server machine.
+  +	NOTE: The certificate used must not be self-signed, it must have server/ client auth and contain appropriate FQDN of the Secret Server machine (Or the Distributed Engine if discovery is being run to a Site).
 +	Create a new WinRM listener with the following information:
-    +	winrm create winrm/config/Listener?Address=*+Transport=HTTPS  '@{Hostname="fqdn.of.SecretServer";CertificateThumbprint="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}'
+    +	winrm create winrm/config/Listener?Address=*+Transport=HTTPS  '@{Hostname="fqdn.of.SecretServer(Or Distributed Engine)";CertificateThumbprint="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}'
     +	Note: Copying from the CertManager will include one extra character in front of the thumbprint that needs to be deleted. 
 ## Creating the Scanner:
 +	Navigate to Admin > Scripts > Create New
