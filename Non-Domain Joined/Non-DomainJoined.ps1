@@ -1,4 +1,3 @@
-#$args = @("OU=192.168.137.0-255","contoso.com", "administrator", "Password9")
 $container = $args[0]
 $domain = $args[1]
 $username = $args[2]
@@ -114,7 +113,7 @@ param(
 }
 
 $Spassword = ConvertTo-SecureString "$password" -AsPlainText -Force #Secure PW
-$cred = New-Object System.Management.Automation.PSCredential ("$domain\$username", $Spassword) #Set credentials for PSCredential logon
+$cred = New-Object System.Management.Automation.PSCredential ("$username", $Spassword) #Set credentials for PSCredential logon
 
 $isContainerIpAddress = $false
 $targetMachines = @()
@@ -185,10 +184,11 @@ foreach ($target in $targetMachines)
                 else {
                     $osInfo = Get-WmiObject Win32_OperatingSystem -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
                     $comp = Get-WmiObject Win32_ComputerSystem -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
+                    $GUID = Get-WmiObject Win32_ComputerSystemProduct -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
                     $isDomainController = (($comp).domainrole -in 4,5)
                 }
-                if (!($isDomainController))
-                {
+                if (($isDomainController))
+               {
                     $adComputer = Get-ADComputer -Filter "Name -eq '$($comp.Name)'" -Server $domain  -properties * -Credential $cred
                 }
 
@@ -230,6 +230,25 @@ foreach ($target in $targetMachines)
             }
             $FoundComputers += $object
             $object = $null
+    }
+    else{
+            $object = New-Object –TypeName PSObject;
+            $object | Add-Member -MemberType NoteProperty -Name ComputerName -Value $comp.Name;
+            $object | Add-Member -MemberType NoteProperty -Name OperatingSystem -Value $osInfo.Caption;
+            $object | Add-Member -MemberType NoteProperty -Name DNSHostName -Value $comp.DNSHostName;
+            $object | Add-Member -MemberType NoteProperty -Name ADGUID -Value $GUID.UUID;
+
+
+            if ($isContainerIpAddress) {
+                $object | Add-Member -MemberType NoteProperty -Name DistinguishedName -Value "CN=$($comp.Name),$container"
+            }
+            else {
+                $object | Add-Member -MemberType NoteProperty -Name DistinguishedName -Value $comp.DistinguishedName.Replace(",$distinguisheddomain", '');
+
+            }
+            $FoundComputers += $object
+            $object = $null
+    
     }
 }
 
