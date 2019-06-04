@@ -42,7 +42,8 @@ https://thycotic.force.com/support/s/article/Configuring-CredSSP-for-use-with-Wi
 
  Navigate to Admin > Discovery > Edit Discovery Sources > Create New
 +	Choose "Unix Discovery Source" For the Discovery Type. This seems counter intuitive, but it will default to an IP address Scanner. 
-+	Follow the wizard and give the discovery source a Name, IP Address range to scan, and skip over the credential page. 
++	Follow the wizard and give the discovery source a Name, IP Address range to scan, and skip over the credential page.
+    **Note:** IP Address Ranges need to be entered under the format: XXX.XXX.XXX.XXX-XXX. CIDR addresses is not supported at this time.
 +	On the Discovery Source Page, Delete any entries under "Find Machines", "Find Accounts", and "Find Dependencies"
 
 ![](./images/DiscoveryScannerPage.png) 
