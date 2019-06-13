@@ -182,9 +182,10 @@ foreach ($target in $targetMachines)
                     $comp = Get-WmiObject Win32_ComputerSystem -ComputerName $target
                 }
                 else {
-                    $osInfo = Get-WmiObject Win32_OperatingSystem -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
-                    $comp = Get-WmiObject Win32_ComputerSystem -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
-                    $GUID = Get-WmiObject Win32_ComputerSystemProduct -ComputerName $target -Credential $cred -ErrorAction SilentlyContinue
+                    $machineCred = New-Object System.Management.Automation.PSCredential ("$target\$username", $Spassword)
+                    $osInfo = Get-WmiObject Win32_OperatingSystem -ComputerName $target -Credential $machineCred -ErrorAction SilentlyContinue
+                    $comp = Get-WmiObject Win32_ComputerSystem -ComputerName $target -Credential $Machinecred -ErrorAction SilentlyContinue
+                    $GUID = Get-WmiObject Win32_ComputerSystemProduct -ComputerName $target -Credential $Machinecred -ErrorAction SilentlyContinue
                     $isDomainController = (($comp).domainrole -in 4,5)
                 }
                 if (($isDomainController))
