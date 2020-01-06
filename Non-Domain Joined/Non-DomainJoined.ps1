@@ -255,4 +255,11 @@ foreach ($target in $targetMachines)
 
 write-debug "Finished.."
 
-return $FoundComputers
+$SanitizedFoundComputers = @()
+
+foreach ($computer in $FoundComputers) {
+   if (($computer.ComputerName -ne $null) -and ($computer.OperatingSystem -ne $null) -and ($computer.DNSHostName -ne $null) -and ($computer.ADGUID -ne $null) -and ($computer.DistinguishedName -ne $null)) {
+       $SanitizedFoundComputers += $computer
+   }
+}
+return $SanitizedFoundComputers
