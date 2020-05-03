@@ -58,7 +58,7 @@ Alternatively the account used in your Discovery (e.g. Discovery Source configur
 | Name | SQL Login Discovery |
 | Description | Discovery SQL Logins on the target machine |
 | Category | Dependency |
-| Script | Paste contents of the [Discovery_SQLLogin.ps1](Discovery_SQLLogin.ps1) |
+| Script | Paste contents of the [Discovery_SqlLogin.ps1](Discovery_SqlLogin.ps1) |
 
 ### Create Discovery Scanner
 
