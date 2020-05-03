@@ -37,9 +37,11 @@ Information on dbatools module can be found [here](https://dbatools.io). The spe
 
 ### Privileged Account
 
-The scanner will require an account that has privileges to the SQL Server instance(s) discoverd on each target. The script provided supports utilizing a Windows Login (domain account) or SQL Login (e.g. the `sa` account).
+The scanner will require an account that has the needed permission to discovery SQL Logins on any SQL Server instance(s) discoverd on each target. The script provided supports utilizing a Windows Login (domain account) or SQL Login (e.g. the `sa` account). 
 
-Alternatively the account used in your Discovery (e.g. Discovery Source configuration) or Distributed Engine (e..g PowerShell runas secret) can be utilized.
+> The minimum permission required to find SQL Logins on a SQL Server instance is `ALTER ANY LOGIN`.
+
+Alternatively the account used in your Discovery (e.g. Discovery Source configuration) or Distributed Engine (e..g PowerShell runas secret) can be utilized, if proper permission is assigned.
 
 ## Secret Server Configuration
 
@@ -84,12 +86,11 @@ Alternatively the account used in your Discovery (e.g. Discovery Source configur
 1. Navigate to the desired source
 1. Navigate to the **Scanner Settings** tab
 1. Under **Find Accounts** select **Add New Account Scanner**
-1. Select the **SQL Logins** scanner created in the previous section (_see table below_)
+1. Select the **SQL Logins** scanner created in the previous section
+1. Under **Secret Credential** add necessay secret (_if Discovery or Distributed Engine account will not be utilized_)
+1. Under **Advanced Settings** adjust the **Scanner Timeout (minutes)** value if necessary
 1. Select **OK**
 
-#### Scanner Settings details:
+## Next Steps
 
-| Field | Value |
-| ------------ | -------------------------------- |
-| Secret Credentials |  |
-| Advanced Settings |  |
+Once the above configuration has been done you can trigger Discovery to scan your environment to find all the SQL Logins.
