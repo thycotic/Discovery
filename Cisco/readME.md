@@ -15,6 +15,7 @@ This script will authenicate to an IOS device with or without an enable password
 - Cisco IOS device with local users
 - Cisco Account (SSH) to authenticate with
 - Cisco Enable Secret (SSH) if necessary
+- Powershell Module Posh-SSH Installed on the Webserver or Engine that will be running discovery.
 
 
 #### Installation
