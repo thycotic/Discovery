@@ -117,6 +117,6 @@ function getCiscoAccounts{
 }
 
 #Test arguments below:
-#$args = ("38.104.237.126", "user1", "password9", "Texas123!")
+#$args = ("IP ADDRESS", "user", "password", "enablepassword")
 
 getCiscoAccounts -hostaddress $args[0] -username $args[1] -password $args[2] -enable $args[3] -commands "show running-config | i user"
