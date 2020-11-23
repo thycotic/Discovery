@@ -93,7 +93,8 @@ if ($sqlEngines) {
             $logins = Get-DbaLogin @p
         } catch {
             if (Test-Path $logPath) {
-                Write-Output "[$(Get-Date -Format yyyyMMdd)] Issue connecting to $sqlInstanceValue - $($_.Exception.Message)"
+                if (Test-Path "$logPath\$($TargetServer)_findsqllogins.txt") { $append = $true}
+                Write-Output "[$(Get-Date -Format yyyyMMdd)] Issue connecting to $sqlInstanceValue - $($_.Exception.Message)" | Out-File "$logPath\$($TargetServer)_findsqllogins.txt" -Append:$append
             } else {
                 Write-Output "[$(Get-Date -Format yyyyMMdd)] Issue connecting to $sqlInstanceValue - $($_.Exception.Message)"
             }
