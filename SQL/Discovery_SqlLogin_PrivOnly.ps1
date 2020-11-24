@@ -24,8 +24,17 @@ $privRoles = 'sysadmin','securityadmin'
 $params = $args
 
 $TargetServer = $params[0]
+
+<#
+    Based on credential type of argument
+#>
+# Windows Domain
 $Username = "$($params[1])\$($params[2])"
 $Password = $params[3]
+
+# SQL Login Account
+# $Username = $params[1]
+# $Password = $params[2]
 
 if ( $Username -and $Password ) {
     $passwd = $Password | ConvertTo-SecureString -AsPlainText -Force

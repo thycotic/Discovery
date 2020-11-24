@@ -78,7 +78,38 @@ The minimum permission required to find SQL Logins on a SQL Server instance is `
 | Input Template | Windows Computer |
 | Output Template | SQL Local Account |
 | Script | SQL Login Discovery |
-| Script Arguments | `$target $[1]$Username $[1]$Password` |
+
+Script arguments are based on the account type being used, adjust the script accordingly:
+
+- Windows Domain Account: `$target $[1]$Domain $[1]$Username $[1]$Password`
+
+    ```powershell
+    <#
+        Based on credential type of argument
+    #>
+    # Windows Domain
+    $Username = "$($params[1])\$($params[2])"
+    $Password = $params[3]
+
+    # SQL Login Account
+    # $Username = $params[1]
+    # $Password = $params[2]
+    ```
+
+- SQL Login Account (ie `sa` account): `$target $[1]$Username $[1]$Password`
+
+    ```powershell
+    <#
+        Based on credential type of argument
+    #>
+    # Windows Domain
+    # $Username = "$($params[1])\$($params[2])"
+    # $Password = $params[3]
+
+    # SQL Login Account
+    $Username = $params[1]
+    $Password = $params[2]
+    ```
 
 ### Create Source Account Scanner
 
