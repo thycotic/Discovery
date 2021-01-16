@@ -1,3 +1,5 @@
+> The content on this repository is no longer being maintained and is now archived for read-only access. Complete removal of the content is TBD.
+
 # Discovery
 The Thycotic Extensible Discovery Script Repository is a repository of scripts that have been created by internal Thycotic consultants, support representatives, and others, along with clients, and partners of Thycotic. As such:
 1.	The scripts have to be changed to match your environment.
